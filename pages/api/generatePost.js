@@ -16,6 +16,17 @@ export default withApiAuthRequired(async function handler(req, res) {
   }
 
   const { topic, keywords } = req.body;
+
+  if (!topic || !keyword) {
+    res.status(422);
+    return;
+  }
+
+  if (topic.length > 80 || keyword.length > 80) {
+    res.status(422);
+    return;
+  }
+
   const postContent = getContent(topic, keywords);
   const { title, metaDescription } = getSeo(topic, keywords);
 
